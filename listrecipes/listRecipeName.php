@@ -3,4 +3,4 @@
 
 require ("api_send_init.php");
 
-echo json_encode($recipeDisplay::listRecipeName($db));
+echo $recipeDisplay->listRecipeName($db);

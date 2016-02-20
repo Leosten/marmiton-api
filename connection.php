@@ -6,7 +6,6 @@ db = Database::getConnection()
 PDO referme ensuite automatiquement la connexion
 */
 
-
 class Database {
 
     private static $db;
