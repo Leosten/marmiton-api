@@ -47,8 +47,8 @@ class recipeDisplay
 												FROM 
 												marmiton.ingredients
 												WHERE ingredients.ID_recette='".$recipe_id."'");
-		$recettes_ingredients = $recettes_ingredients->fetchAll();
-		return $this->returnToJson($recettes_ingredients);
+		$recette_ingredients = $recette_ingredients->fetchAll();
+		return $this->returnToJson($recette_ingredients);
 	}
 }
 ?>
