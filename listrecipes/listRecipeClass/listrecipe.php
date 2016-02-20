@@ -20,36 +20,33 @@ class recipeDisplay
 		return $this->returnToJson($raw_result);
 	}
 
-	public function getFullRecipe($connection, $recipe_name)
+	public function getFullRecipe($connection, $recipe_id)
 	{
-		$id_recette = $connection->query("SELECT ID FROM marmiton.recettes WHERE nom='".$recipe_name."'");
-		$id_recette = $id_recette->fetch();
-		$id_recette = $id_recette[0];
 		$table_recette = $connection->query("SELECT
-											nom,
-											preparation,
-											remarque
+											recettes.ID,
+											recettes.nom,
+											recettes.niveau,
+											recettes.image_url,
+											texte.preparation,
+											texte.remarque
 											FROM
 											marmiton.recettes,
-											marmiton.texte,
-											WHERE texte.ID_recette='".$id_recette."'
-											AND recettes.ID='".$id_recette."'");
+											marmiton.texte
+											WHERE texte.ID_recette='".$recipe_id."'
+											AND recettes.ID='".$recipe_id."'");
 		$table_recette = $table_recette->fetch();
 		return $this->returnToJson($table_recette);
 	}
 
-	public function getIngredients($connection, $recipe_name)
+	public function getIngredients($connection, $recipe_id)
 	{
-		$id_recette = $connection->query("SELECT ID FROM marmiton.recettes WHERE nom='".$recipe_name."'");
-		$id_recette = $id_recette->fetch();
-		$id_recette = $id_recette[0];
 		$recette_ingredients = $connection->query("SELECT
 												nom,
 												quantite,
 												unite
 												FROM 
 												marmiton.ingredients
-												WHERE ingredients.ID_recette='".$id_recette."'");
+												WHERE ingredients.ID_recette='".$recipe_id."'");
 		$recettes_ingredients = $recettes_ingredients->fetchAll();
 		return $this->returnToJson($recettes_ingredients);
 	}
