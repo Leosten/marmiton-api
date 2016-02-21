@@ -4,13 +4,10 @@
 
 class recipeDisplay
 {
-	private $result;
-
 	public function returnToJson($raw_result)
 	{
-		$encoded_result = json_encode($raw_result);
-		$result = $encoded_result;
-		return $result;
+		$encoded_result = json_encode($raw_result, JSON_PRETTY_PRINT);
+		return $encoded_result;
 	}
 
 	public function listRecipeName($connection)
@@ -51,4 +48,3 @@ class recipeDisplay
 		return $this->returnToJson($recette_ingredients);
 	}
 }
-?>
