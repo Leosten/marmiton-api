@@ -2,32 +2,53 @@
 
 class createRecipe
 {
-	public function processJsonPost($JsonObject)
+	public function getRecipeId($connection, $recipe_name)
 	{
-		$JsonObject = json_decode($JsonObject, true);
-		return $JsonObject;
+		$recipe_id = $connection->query("SELECT ID FROM marmiton.recettes WHERE nom='".$recipe_name."'");
+		$recipe_id = $recipe_id->fetch();
+		return $recipe_id[0];
 	}
 
-	public function insertRecipeName($connection, $recipe_main)
+	public function insertRecipeName($connection, $recipe)
 	{
-		$this->processJsonPost($recipe_main);
-		$recipe_main = $connection->query("INSERT INTO marmiton.recettes (nom, niveau, image_url)
-											VALUES ('".$recipe['nom']."', 
-											'".$recipe['niveau']."', 
-											'".$recipe['image_url']."', 
-											'".$recipe['categorie']."', 
-											'".$recipe['tags']."')");
+		$recipe_exec = $connection->query("INSERT INTO marmiton.recettes (nom, niveau, image_url, categorie, tags, pseudo, mail)
+											VALUES ('".$recipe['nom']."',
+											'".$recipe['niveau']."',
+											'".$recipe['image_url']."',
+											'".$recipe['categorie']."',
+											'".$recipe['tags']."',
+											'".$recipe['pseudo']."',
+											'".$recipe['mail']"')");
 	}
 
-	public function getNewRecipeId($connection, $new_recipe_name)
+	public function insertRecipeIngredients($connection, $recipe_ingredients, $recipe_name)
 	{
-		$new_recipe_id = $connection->query("SELECT ID FROM marmiton.recettes WHERE nom='".$new_recipe_name."'");
-		return $new_recipe_id;
+		$recipe_id = $this->getRecipeId($connection, $recipe_name);
+		foreach ($recipe_ingredients['ingredients'] as $value)
+		{
+			$connection->query("INSERT INTO marmiton.ingredients (nom, quantite, unite, ID_recette)
+											VALUES ('".$value['nom']."',
+													'".$value['quantite']."',
+													'".$value['unite']."',
+													'".$recipe_id."')");
+		}
 	}
 
-	public function insertRecipeDetails($connection, $recipe_data, $recipe_id)
+	public function insertRecipeDetails($connection, $recipe_details, $recipe_name)
 	{
-		$recipe_data = $connection->query("INSERT INTO marmiton.ingredients (nom, quantite, unite)
-											VALUES ('"$recipe_data['nom')
+		$recipe_id = $this->getRecipeId($connection, $recipe_name);
+		$recipe_details = $connection->query("INSERT INTO marmiton.texte (preparation, remarque, ID_recette)
+												VALUES ('".$recipe_details['preparation']."',
+														'".$recipe_details['remarque']."',
+														'".$recipe_id."')");
+	}
+
+	public function insertUserComments($connection, $user_comments, $recipe_id)
+	{
+		$recipe_details = $connection->query("INSERT INTO marmiton.user_comments (pseudo, texte, rating, ID_recette)
+											VALUES ('".$user_comments['pseudo']."',
+													'".$user_comments['texte']."',
+													'".$user_comments['rating']."',
+													'".$recipe_id."')");
 	}
 }

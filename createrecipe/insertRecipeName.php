@@ -1,9 +1,19 @@
 <?php
-
 require("api_create_init.php");
-
-if isset($_POST['newrecipe'])
+$recipe = json_decode(file_get_contents('php://input'), true);
+if ($createRecipe->insertRecipeName($db, $recipe))
 {
-	$response = json_decode($_POST['newrecipe'], true);
-	$createRecipe->insertRecipeName($db, $response);
+	echo("OK recipename");
 }
+else
+{
+	echo("Nope");
+}
+// var_dump($recipe);
+// {
+// 	if ($new_recipe_id = $createRecipe->getNewRecipeId($db, $recipe['nom']))
+// 	{
+// 		$createRecipe->insertRecipeDetails($db, $recipe, $new_recipe_id);
+// 	}
+// }
+// ob_end_flush();
