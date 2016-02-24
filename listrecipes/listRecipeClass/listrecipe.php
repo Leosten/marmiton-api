@@ -71,6 +71,7 @@ class recipeDisplay
 											recettes.nom,
 											recettes.niveau,
 											recettes.pseudo,
+											recettes.categorie,
 											recettes.tags,
 											texte.remarque
 											FROM

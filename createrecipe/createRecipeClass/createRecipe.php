@@ -18,7 +18,7 @@ class createRecipe
 											'".$recipe['categorie']."',
 											'".$recipe['tags']."',
 											'".$recipe['pseudo']."',
-											'".$recipe['mail']"')");
+											'".$recipe['mail']."')");
 	}
 
 	public function insertRecipeIngredients($connection, $recipe_ingredients, $recipe_name)
